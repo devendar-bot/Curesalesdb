@@ -1,6 +1,6 @@
 # SPINE Dashboard – Google Sheet → Vercel (with GitHub)
 
-The app reads **your spreadsheet directly** (SPINE ORDER REVIEW 2026, ID `1PO7SB2FT7fMqOYjko_myUG8bbB6Nj-HA6wBJL0NqFCQ`) and writes changes **back into it**. No Excel files are involved.
+The app reads **your spreadsheet directly** (SPINE ORDER REVIEW 2026, ID `YOUR_GOOGLE_SHEET_ID`) and writes changes **back into it**. No Excel files are involved.
 
 ```
 Your Google Sheet  <—  Apps Script (Code.gs, runs as you)  <—  React app on Vercel  <—  code on GitHub
@@ -21,7 +21,7 @@ Your Google Sheet  <—  Apps Script (Code.gs, runs as you)  <—  React app on 
 Use the Google account that can **edit** the spreadsheet (the sharing link being "view only" is fine).
 
 1. Open the spreadsheet → **Extensions → Apps Script**.
-2. Delete the sample code, paste all of `apps-script/Code.gs` (the sheet ID and token are already filled in) → **Save**.
+2. Delete the sample code, paste all of `apps-script/Code.gs` and replace `YOUR_GOOGLE_SHEET_ID` and `YOUR_SECRET_TOKEN` at the top (use a long random token; never commit real values to GitHub) → **Save**.
 3. In the function dropdown choose **`check`** → **Run** → *Review permissions → Allow*.
    Open **Execution log**: you should see 10 lines like `DEL "del usage" rows: 8506`. A line ending `PROBLEM:` means a tab name differs – fix the name in `CFG` at the top of Code.gs.
 4. **Deploy → New deployment → ⚙ Select type → Web app**
@@ -34,12 +34,12 @@ Use the Google account that can **edit** the spreadsheet (the sharing link being
 
 ## Step 2 – The `.env` file (1 min)
 
-Open `.env` (included, already has the token and sheet ID). Replace the only placeholder:
+Copy `.env.example` to `.env` (it is git-ignored, so it never goes to GitHub) and fill in the three values:
 
 ```
 VITE_API_URL=https://script.google.com/macros/s/AKfy.../exec
-VITE_API_TOKEN=o-byVgtpeoDWMlNS34O9W2u3DMsQobzzcx4UHUS7WCI
-VITE_SHEET_ID=1PO7SB2FT7fMqOYjko_myUG8bbB6Nj-HA6wBJL0NqFCQ
+VITE_API_TOKEN=YOUR_SECRET_TOKEN
+VITE_SHEET_ID=YOUR_GOOGLE_SHEET_ID
 ```
 
 To use a different token: change it in **both** `Code.gs` (`API_TOKEN`) and `.env`.
